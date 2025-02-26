@@ -1,41 +1,95 @@
 "use client";
-// Background elements with more items for infinite scrolling
+interface DifficultyLevel {
+  name: string;
+  initialSpeed: number;
+  speedIncrease: number;
+  obstacleFrequency: number;
+  maxSpeed: number;
+  jumpForce: number;
+  gravity: number;
+  obstacleTypes: string[];
+  backgroundColor: string;
+  description: string;
+}
+
+const difficultyLevels: DifficultyLevel[] = [
+  {
+    name: "Easy",
+    initialSpeed: 4,
+    speedIncrease: 0.3,
+    obstacleFrequency: 100,
+    maxSpeed: 8,
+    jumpForce: 12,
+    gravity: 0.5,
+    obstacleTypes: ["boba", "dumpling", "sushi"],
+    backgroundColor: "linear-gradient(to bottom, #87CEEB 0%, #e0f7fa 100%)",
+    description: "Slower obstacles and bigger jumps. Perfect for beginners!",
+  },
+  {
+    name: "Medium",
+    initialSpeed: 5,
+    speedIncrease: 0.4,
+    obstacleFrequency: 80,
+    maxSpeed: 10,
+    jumpForce: 12,
+    gravity: 0.55,
+    obstacleTypes: ["boba", "ramen", "dumpling", "sushi", "takoyaki"],
+    backgroundColor: "linear-gradient(to bottom, #ffb347 0%, #ffcc33 100%)",
+    description: "Balanced gameplay with all obstacle types. A good challenge!",
+  },
+  {
+    name: "Asian",
+    initialSpeed: 6,
+    speedIncrease: 0.5,
+    obstacleFrequency: 60,
+    maxSpeed: 12,
+    jumpForce: 12,
+    gravity: 0.6,
+    obstacleTypes: ["ramen", "takoyaki"],
+    backgroundColor: "linear-gradient(to bottom, #ff7e5f 0%, #feb47b 100%)",
+    description:
+      "Fast-paced with harder obstacles. Only for the elite runners!",
+  },
+];
+
+// Current difficulty level
+// Default to Medium  // Background elements with more items for infinite scrolling
 const backgroundItems = [
   // Buildings and structures - Layer 1
-  { type: "🏯", x: 100, size: 60 },
-  { type: "🗼", x: 250, size: 70 },
-  { type: "⛩️", x: 450, size: 50 },
-  { type: "🏙️", x: 650, size: 80 },
-  { type: "🏯", x: 900, size: 65 },
-  { type: "⛩️", x: 1100, size: 55 },
-  { type: "🏙️", x: 1300, size: 75 },
-  { type: "🗼", x: 1500, size: 65 },
+  { type: "🏯", x: 100, size: 80 },
+  { type: "🗼", x: 250, size: 90 },
+  { type: "⛩️", x: 450, size: 70 },
+  { type: "🏙️", x: 650, size: 100 },
+  { type: "🏯", x: 900, size: 85 },
+  { type: "⛩️", x: 1100, size: 75 },
+  { type: "🏙️", x: 1300, size: 95 },
+  { type: "🗼", x: 1500, size: 85 },
 
   // Cherry blossoms - Layer 2
-  { type: "🌸", x: 150, size: 30, top: 30 },
-  { type: "🌸", x: 350, size: 20, top: 50 },
-  { type: "🌸", x: 550, size: 25, top: 40 },
-  { type: "🌸", x: 750, size: 30, top: 35 },
-  { type: "🌸", x: 950, size: 20, top: 45 },
-  { type: "🌸", x: 1150, size: 25, top: 55 },
+  { type: "🌸", x: 150, size: 40, top: 80 },
+  { type: "🌸", x: 350, size: 30, top: 120 },
+  { type: "🌸", x: 550, size: 35, top: 90 },
+  { type: "🌸", x: 750, size: 45, top: 150 },
+  { type: "🌸", x: 950, size: 30, top: 110 },
+  { type: "🌸", x: 1150, size: 40, top: 140 },
 
   // Clouds - Layer 3 (slowest)
-  { type: "☁️", x: 200, size: 40, top: 30 },
-  { type: "☁️", x: 400, size: 30, top: 20 },
-  { type: "☁️", x: 700, size: 50, top: 40 },
-  { type: "☁️", x: 900, size: 35, top: 25 },
-  { type: "☁️", x: 1200, size: 45, top: 35 },
-  { type: "☁️", x: 1500, size: 30, top: 15 },
+  { type: "☁️", x: 200, size: 60, top: 200 },
+  { type: "☁️", x: 400, size: 50, top: 180 },
+  { type: "☁️", x: 700, size: 70, top: 220 },
+  { type: "☁️", x: 900, size: 55, top: 160 },
+  { type: "☁️", x: 1200, size: 65, top: 190 },
+  { type: "☁️", x: 1500, size: 50, top: 170 },
 
   // Trees - Layer 4 (fastest)
-  { type: "🌳", x: 150, size: 40 },
-  { type: "🌳", x: 300, size: 45 },
-  { type: "🌳", x: 500, size: 42 },
-  { type: "🌳", x: 700, size: 38 },
-  { type: "🌳", x: 900, size: 43 },
-  { type: "🌳", x: 1100, size: 40 },
-  { type: "🌳", x: 1300, size: 44 },
-  { type: "🌳", x: 1500, size: 39 },
+  { type: "🌳", x: 150, size: 60 },
+  { type: "🌳", x: 300, size: 65 },
+  { type: "🌳", x: 500, size: 62 },
+  { type: "🌳", x: 700, size: 58 },
+  { type: "🌳", x: 900, size: 63 },
+  { type: "🌳", x: 1100, size: 60 },
+  { type: "🌳", x: 1300, size: 64 },
+  { type: "🌳", x: 1500, size: 59 },
 ];
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
@@ -63,6 +117,7 @@ const AsianGuyRunner: React.FC = () => {
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
   const [highScore, setHighScore] = useState<number>(0);
+  const [currentDifficulty, setCurrentDifficulty] = useState<number>(1);
 
   // Character states
   const [runnerPosition, setRunnerPosition] = useState<Position>({
@@ -73,9 +128,11 @@ const AsianGuyRunner: React.FC = () => {
   const [obstacles, setObstacles] = useState<Obstacle[]>([]);
 
   // Game settings
-  const gameSpeed = useRef<number>(4); // Slower initial speed
-  const gravity: number = 0.5; // Reduced gravity
-  const jumpForce: number = 12; // Adjusted jump force
+  const gameSpeed = useRef<number>(
+    difficultyLevels[currentDifficulty].initialSpeed
+  );
+  const gravity: number = difficultyLevels[currentDifficulty].gravity;
+  const jumpForce: number = difficultyLevels[currentDifficulty].jumpForce;
   const runnerHeight: number = 60;
   const runnerWidth: number = 40;
   const groundHeight: number = 24;
@@ -105,7 +162,7 @@ const AsianGuyRunner: React.FC = () => {
   // Initialize the game area dimensions
   const [dimensions, setDimensions] = useState<Dimensions>({
     width: 1000,
-    height: 250,
+    height: 350,
   });
 
   // Handle window resize
@@ -114,7 +171,7 @@ const AsianGuyRunner: React.FC = () => {
       if (gameAreaRef.current) {
         setDimensions({
           width: Math.min(1000, window.innerWidth - 40),
-          height: 250,
+          height: 350,
         });
       }
     };
@@ -150,8 +207,8 @@ const AsianGuyRunner: React.FC = () => {
       asianGuyFaces[Math.floor(Math.random() * asianGuyFaces.length)]
     );
     frameCountRef.current = 0;
-    gameSpeed.current = 5;
-  }, [asianGuyFaces]);
+    gameSpeed.current = difficultyLevels[currentDifficulty].initialSpeed;
+  }, [asianGuyFaces, currentDifficulty]);
 
   // Jump function
   const jump = useCallback((): void => {
@@ -213,67 +270,66 @@ const AsianGuyRunner: React.FC = () => {
 
   // Check for collisions
   const checkCollision = useCallback((): boolean => {
-    // Calculate character's actual position
-    const runnerLeft: number = 50; // Runner's left edge x position
-    const runnerRight: number = runnerLeft + runnerWidth * 0.7; // Reduce hitbox width
-    const runnerBottom: number = dimensions.height - groundHeight;
+    // Get the runner's bounding box - with a bit smaller hitbox for fairness
+    const runnerLeft: number = 50; // x position of runner
+    const runnerRight: number = runnerLeft + runnerWidth * 0.6; // slightly smaller hitbox width
     const runnerTop: number =
-      runnerBottom - runnerHeight * 0.6 + runnerPosition.y; // Adjust hitbox height and account for jump height
+      dimensions.height - groundHeight - runnerHeight + runnerPosition.y + 15; // Adjusted to account for the visible character
+    const runnerBottom: number = dimensions.height - groundHeight - 6; // Slightly raised from ground
 
-    // Visual debug
-    const isDebug: boolean = false; // Set to true to debug hitboxes
+    // Debug rendering of hitbox
+    const isDebug: boolean = false;
     if (isDebug && gameAreaRef.current) {
       // Remove old debug elements
-      const oldDebug = gameAreaRef.current.querySelector(".debug-hitbox");
+      const oldDebug = gameAreaRef.current.querySelector(
+        ".debug-hitbox-runner"
+      );
       if (oldDebug) {
         oldDebug.remove();
       }
 
       // Add runner hitbox visualization
       const debugElement = document.createElement("div");
-      debugElement.className = "debug-hitbox";
+      debugElement.className = "debug-hitbox-runner";
       debugElement.style.position = "absolute";
       debugElement.style.left = `${runnerLeft}px`;
-      debugElement.style.bottom = `${runnerBottom - runnerTop}px`;
+      debugElement.style.top = `${runnerTop}px`;
       debugElement.style.width = `${runnerRight - runnerLeft}px`;
       debugElement.style.height = `${runnerBottom - runnerTop}px`;
-      debugElement.style.border = "1px solid red";
-      debugElement.style.zIndex = "1000";
+      debugElement.style.border = "2px solid red";
+      debugElement.style.zIndex = "100";
       gameAreaRef.current.appendChild(debugElement);
     }
 
     for (const obstacle of obstacles) {
-      // Calculate the actual obstacle hitbox
-      const scaleFactor: number = 0.6; // Reduce obstacle hitbox by 40%
-      const centerOffset: number = (obstacleWidth * (1 - scaleFactor)) / 2; // Center the smaller hitbox
-
-      const obstacleLeft: number = obstacle.x + centerOffset;
-      const obstacleRight: number = obstacle.x + obstacleWidth - centerOffset;
-      // Give more generous vertical clearance
+      // Calculate the actual obstacle hitbox - with slight adjustments for fairness
+      const obstacleLeft: number = obstacle.x + 5; // Smaller hitbox than visual
+      const obstacleRight: number = obstacle.x + obstacleWidth - 5;
+      // Make the hitbox height appropriate for the emoji
       const obstacleTop: number =
-        dimensions.height - groundHeight - obstacle.height * 0.7;
+        dimensions.height - groundHeight - obstacle.height + 5;
+      const obstacleBottom: number = dimensions.height - groundHeight - 5;
 
-      // Visual debug for obstacles
+      // Debug rendering of obstacle hitbox
       if (isDebug && gameAreaRef.current) {
-        const debugObstacle = document.createElement("div");
-        debugObstacle.className = "debug-hitbox";
-        debugObstacle.style.position = "absolute";
-        debugObstacle.style.left = `${obstacleLeft}px`;
-        debugObstacle.style.bottom = `${dimensions.height - obstacleTop}px`;
-        debugObstacle.style.width = `${obstacleRight - obstacleLeft}px`;
-        debugObstacle.style.height = `${
-          obstacleTop - (dimensions.height - groundHeight)
-        }px`;
-        debugObstacle.style.border = "1px solid blue";
-        debugObstacle.style.zIndex = "1000";
-        gameAreaRef.current.appendChild(debugObstacle);
+        const obstacleDebug = document.createElement("div");
+        obstacleDebug.className = "debug-hitbox-obstacle";
+        obstacleDebug.style.position = "absolute";
+        obstacleDebug.style.left = `${obstacleLeft}px`;
+        obstacleDebug.style.top = `${obstacleTop}px`;
+        obstacleDebug.style.width = `${obstacleRight - obstacleLeft}px`;
+        obstacleDebug.style.height = `${obstacleBottom - obstacleTop}px`;
+        obstacleDebug.style.border = "2px solid blue";
+        obstacleDebug.style.zIndex = "100";
+        gameAreaRef.current.appendChild(obstacleDebug);
       }
 
-      // Improved collision detection with smaller hitboxes
+      // AABB Collision detection (Axis-Aligned Bounding Box)
       if (
-        runnerRight > obstacleLeft && // Runner right edge past obstacle left edge
-        runnerLeft < obstacleRight && // Runner left edge before obstacle right edge
-        runnerTop < obstacleTop // Runner top edge above obstacle top (is colliding)
+        runnerRight > obstacleLeft && // Runner's right edge is past obstacle's left edge
+        runnerLeft < obstacleRight && // Runner's left edge is before obstacle's right edge
+        runnerBottom > obstacleTop && // Runner's bottom edge is below obstacle's top edge
+        runnerTop < obstacleBottom // Runner's top edge is above obstacle's bottom edge
       ) {
         return true;
       }
@@ -292,16 +348,21 @@ const AsianGuyRunner: React.FC = () => {
 
   // Generate new obstacles
   const generateObstacle = useCallback((): void => {
-    // Random height between 30 and 60
-    const height: number = Math.floor(Math.random() * 30) + 30;
-
-    // Random obstacle type
-    const obstacleTypes: string[] = Object.keys(obstacleEmojis);
+    // Get available obstacle types from current difficulty
+    const availableTypes = difficultyLevels[currentDifficulty].obstacleTypes;
     const type: string =
-      obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
+      availableTypes[Math.floor(Math.random() * availableTypes.length)];
 
-    // Random distance between obstacles - make sure there's enough space to jump safely
-    const minDistance = Math.max(minObstacleDistance, 200 * gameSpeed.current);
+    // Random height between 30 and 60 - higher on harder difficulties
+    const heightBonus = currentDifficulty * 5;
+    const height: number = Math.floor(Math.random() * 30) + 30 + heightBonus;
+
+    // Random distance between obstacles - shorter on harder difficulties
+    const distanceReduction = currentDifficulty * 50;
+    const minDistance = Math.max(
+      minObstacleDistance - distanceReduction,
+      200 * gameSpeed.current
+    );
     const distance: number = Math.floor(
       Math.random() * (maxObstacleDistance - minDistance) + minDistance
     );
@@ -325,7 +386,12 @@ const AsianGuyRunner: React.FC = () => {
         },
       ];
     });
-  }, [dimensions.width, minObstacleDistance, maxObstacleDistance]);
+  }, [
+    dimensions.width,
+    minObstacleDistance,
+    maxObstacleDistance,
+    currentDifficulty,
+  ]);
 
   // Game loop
   useEffect(() => {
@@ -340,12 +406,19 @@ const AsianGuyRunner: React.FC = () => {
       }
 
       // Increase game speed gradually but cap it
-      if (frameCountRef.current % 1000 === 0 && gameSpeed.current < 10) {
-        gameSpeed.current += 0.5;
+      const currentDifficultySettings = difficultyLevels[currentDifficulty];
+      if (
+        frameCountRef.current % 1000 === 0 &&
+        gameSpeed.current < currentDifficultySettings.maxSpeed
+      ) {
+        gameSpeed.current += currentDifficultySettings.speedIncrease;
       }
 
-      // Generate new obstacles at a rate that depends on game speed
-      const obstacleGenerationRate = Math.max(100 - gameSpeed.current * 5, 50);
+      // Generate new obstacles at a rate that depends on game speed and difficulty
+      const obstacleGenerationRate = Math.max(
+        currentDifficultySettings.obstacleFrequency - gameSpeed.current * 5,
+        30
+      );
       if (
         frameCountRef.current % Math.floor(obstacleGenerationRate) === 0 ||
         obstacles.length === 0
@@ -418,6 +491,8 @@ const AsianGuyRunner: React.FC = () => {
     score,
     obstacles.length,
     asianGuyFaces,
+    gravity,
+    currentDifficulty,
   ]);
 
   // Handle game over
@@ -470,7 +545,7 @@ const AsianGuyRunner: React.FC = () => {
         style={{
           width: dimensions.width,
           height: dimensions.height,
-          background: "linear-gradient(to bottom, #87CEEB 0%, #e0f7fa 100%)",
+          background: difficultyLevels[currentDifficulty].backgroundColor,
         }}
       >
         {/* Background Elements with different layers for parallax */}
@@ -660,6 +735,30 @@ const AsianGuyRunner: React.FC = () => {
               <h2 className="text-3xl font-bold text-gray-700 mb-4">
                 ASIAN GUY RUNNER 🏃‍♂️
               </h2>
+
+              {/* Difficulty Selection */}
+              <div className="mb-6">
+                <p className="mb-2 text-lg">Select Difficulty:</p>
+                <div className="flex justify-center gap-3">
+                  {difficultyLevels.map((level, index) => (
+                    <button
+                      key={index}
+                      className={`px-4 py-2 rounded-md ${
+                        currentDifficulty === index
+                          ? "bg-blue-500 text-white"
+                          : "bg-gray-200 hover:bg-gray-300"
+                      }`}
+                      onClick={() => setCurrentDifficulty(index)}
+                    >
+                      {level.name}
+                    </button>
+                  ))}
+                </div>
+                <p className="text-sm mt-2 text-gray-500">
+                  {difficultyLevels[currentDifficulty].description}
+                </p>
+              </div>
+
               <p className="mb-2 text-lg">
                 Press SPACE, UP ARROW or TAP to start and jump
               </p>
@@ -677,7 +776,31 @@ const AsianGuyRunner: React.FC = () => {
               </h2>
               <p className="text-6xl mb-4">{deadFace}</p>
               <p className="text-xl mb-2">You got hit by Asian food!</p>
-              <p className="text-2xl mb-6">Score: {score}</p>
+              <p className="text-2xl mb-4">Score: {score}</p>
+              <p className="text-md mb-6">
+                Difficulty: {difficultyLevels[currentDifficulty].name}
+              </p>
+
+              {/* Difficulty Selection for Retry */}
+              <div className="mb-6">
+                <p className="mb-2">Change Difficulty:</p>
+                <div className="flex justify-center gap-2">
+                  {difficultyLevels.map((level, index) => (
+                    <button
+                      key={index}
+                      className={`px-3 py-1 rounded-md text-sm ${
+                        currentDifficulty === index
+                          ? "bg-blue-500 text-white"
+                          : "bg-gray-200 hover:bg-gray-300"
+                      }`}
+                      onClick={() => setCurrentDifficulty(index)}
+                    >
+                      {level.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <button
                 className="bg-blue-500 text-white px-6 py-3 text-lg rounded-lg hover:bg-blue-600 transition-colors"
                 onClick={() => {
