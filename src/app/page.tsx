@@ -21,7 +21,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -202,7 +201,7 @@ export default function TonkatsuConfigurator() {
             </span>
           </CardTitle>
           <CardDescription className="text-center text-lg text-white/90 mt-2">
-            (Or Nightmare? We Don't Judge... Much)
+            (Or Nightmare? We Don&apos;t Judge... Much)
           </CardDescription>
         </div>
       </Card>
@@ -234,12 +233,12 @@ export default function TonkatsuConfigurator() {
           </AlertDescription>
         </Alert>
       ) : (
-        <Alert className="my-6 shadow-md" variant="warning">
+        <Alert className="my-6 shadow-md" variant="destructive">
           <ShoppingCart className="h-5 w-5" />
           <AlertTitle className="font-medium">Ready to Order?</AlertTitle>
           <AlertDescription>
-            Don't forget to place your order when you're done customizing your
-            culinary masterpiece (or disaster)!
+            Don&apos;t forget to place your order when you&apos;re done
+            customizing your culinary masterpiece (or disaster)!
           </AlertDescription>
         </Alert>
       )}
@@ -296,7 +295,9 @@ export default function TonkatsuConfigurator() {
               <Utensils className="mr-2 h-5 w-5 text-amber-600" /> Sauce
               Selection
             </CardTitle>
-            <CardDescription>What's a cutlet without sauce?</CardDescription>
+            <CardDescription>
+              What&apos;s a cutlet without sauce?
+            </CardDescription>
           </CardHeader>
           <CardContent className="pt-3">
             <RadioGroup
@@ -386,7 +387,7 @@ export default function TonkatsuConfigurator() {
               <Leaf className="mr-2 h-5 w-5 text-amber-600" /> Side Dishes
             </CardTitle>
             <CardDescription>
-              Complete your meal (or don't, we're not your mom)
+              Complete your meal (or don&apos;t, we&apos;re not your mom)
             </CardDescription>
           </CardHeader>
           <CardContent className="pt-3 space-y-4">
@@ -404,7 +405,7 @@ export default function TonkatsuConfigurator() {
               >
                 Shredded Cabbage{" "}
                 <span className="text-sm text-gray-500">
-                  (It's basically a salad, right?)
+                  (It&apos;s basically a salad, right?)
                 </span>
               </Label>
             </div>
@@ -483,8 +484,8 @@ export default function TonkatsuConfigurator() {
       <Card className="mt-6 shadow-md border-0">
         <CardHeader className="bg-gradient-to-r from-green-50 to-yellow-50 pb-3">
           <CardTitle className="flex items-center text-xl">
-            <Sparkles className="mr-2 h-5 w-5 text-amber-600" /> Chef's Despair
-            Meter
+            <Sparkles className="mr-2 h-5 w-5 text-amber-600" /> Chef&apos;s
+            Despair Meter
           </CardTitle>
           <CardDescription>
             How much is your order making our chef question their career
