@@ -12,7 +12,7 @@ import {
   Egg,
   Leaf,
   Thermometer,
-  ArrowRight,
+  Sparkles,
 } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -30,7 +30,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { toast } from "sonner"
+import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
 
 interface ConfiguratorState {
   cutletType: string;
@@ -92,6 +93,7 @@ export default function TonkatsuConfigurator() {
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [insult, setInsult] = useState<string>("");
   const [showConfetti, setShowConfetti] = useState(false);
+
   const handleConfigChange = (
     field: keyof ConfiguratorState,
     value: string | boolean | number
@@ -190,27 +192,27 @@ export default function TonkatsuConfigurator() {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl">
-      <Card className="mb-8 border-4 border-yellow-400">
-        <CardHeader className="bg-yellow-50">
-          <CardTitle className="text-3xl font-bold text-center">
+    <div className="container mx-auto p-6 max-w-4xl bg-neutral-50 min-h-screen">
+      <Card className="mb-8 border-0 shadow-md overflow-hidden">
+        <div className="bg-gradient-to-r from-amber-400 to-yellow-500 py-6 px-4">
+          <CardTitle className="text-3xl font-bold text-center text-white">
             Build Your Dream Tonkatsu{" "}
             <span role="img" aria-label="pig">
               🐷
             </span>
           </CardTitle>
-          <CardDescription className="text-center text-lg">
+          <CardDescription className="text-center text-lg text-white/90 mt-2">
             (Or Nightmare? We Don't Judge... Much)
           </CardDescription>
-        </CardHeader>
+        </div>
       </Card>
 
       {orderPlaced ? (
         <Alert
           variant={isClassicTonkatsu(config) ? "default" : "destructive"}
-          className="my-6 animate-bounce"
+          className="my-6 shadow-md border-l-4"
         >
-          <CheckCircle className="h-4 w-4" />
+          <CheckCircle className="h-5 w-5" />
           <AlertTitle className="text-lg font-bold">
             Order Confirmed!
           </AlertTitle>
@@ -232,9 +234,9 @@ export default function TonkatsuConfigurator() {
           </AlertDescription>
         </Alert>
       ) : (
-        <Alert className="my-6" variant="warning">
-          <ShoppingCart className="h-4 w-4" />
-          <AlertTitle>Ready to Order?</AlertTitle>
+        <Alert className="my-6 shadow-md" variant="warning">
+          <ShoppingCart className="h-5 w-5" />
+          <AlertTitle className="font-medium">Ready to Order?</AlertTitle>
           <AlertDescription>
             Don't forget to place your order when you're done customizing your
             culinary masterpiece (or disaster)!
@@ -242,69 +244,90 @@ export default function TonkatsuConfigurator() {
         </Alert>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <Beef className="mr-2" /> Cutlet Type
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="shadow-md border-0">
+          <CardHeader className="bg-neutral-100 pb-3">
+            <CardTitle className="flex items-center text-xl">
+              <Beef className="mr-2 h-5 w-5 text-amber-600" /> Cutlet Type
             </CardTitle>
             <CardDescription>Choose your protein (or... tofu)</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <RadioGroup
               value={config.cutletType}
               onValueChange={(value) => handleConfigChange("cutletType", value)}
               className="space-y-3"
             >
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 p-2 rounded-md transition-colors hover:bg-neutral-100">
                 <RadioGroupItem value="Pork Loin" id="cutlet-pork" />
-                <Label htmlFor="cutlet-pork" className="text-lg">
+                <Label
+                  htmlFor="cutlet-pork"
+                  className="text-lg cursor-pointer w-full"
+                >
                   Pork Loin <Badge variant="outline">Classic</Badge>
                 </Label>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 p-2 rounded-md transition-colors hover:bg-neutral-100">
                 <RadioGroupItem value="Chicken Breast" id="cutlet-chicken" />
-                <Label htmlFor="cutlet-chicken" className="text-lg">
+                <Label
+                  htmlFor="cutlet-chicken"
+                  className="text-lg cursor-pointer w-full"
+                >
                   Chicken Breast{" "}
                   <Badge variant="secondary">For The Cautious</Badge>
                 </Label>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 p-2 rounded-md transition-colors hover:bg-neutral-100">
                 <RadioGroupItem value="Tofu" id="cutlet-tofu" />
-                <Label htmlFor="cutlet-tofu" className="text-lg">
+                <Label
+                  htmlFor="cutlet-tofu"
+                  className="text-lg cursor-pointer w-full"
+                >
                   Tofu <Badge variant="destructive">Brave Choice</Badge>
                 </Label>
               </div>
             </RadioGroup>
           </CardContent>
 
-          <CardHeader className="pt-6">
-            <CardTitle className="flex items-center">
-              <Utensils className="mr-2" /> Sauce Selection
+          <Separator className="my-2" />
+
+          <CardHeader className="pb-3 pt-4">
+            <CardTitle className="flex items-center text-xl">
+              <Utensils className="mr-2 h-5 w-5 text-amber-600" /> Sauce
+              Selection
             </CardTitle>
             <CardDescription>What's a cutlet without sauce?</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-3">
             <RadioGroup
               value={config.sauceType}
               onValueChange={(value) => handleConfigChange("sauceType", value)}
               className="space-y-3"
             >
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 p-2 rounded-md transition-colors hover:bg-neutral-100">
                 <RadioGroupItem value="Tonkatsu Sauce" id="sauce-tonkatsu" />
-                <Label htmlFor="sauce-tonkatsu" className="text-lg">
+                <Label
+                  htmlFor="sauce-tonkatsu"
+                  className="text-lg cursor-pointer w-full"
+                >
                   Tonkatsu Sauce <Badge variant="outline">Traditional</Badge>
                 </Label>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 p-2 rounded-md transition-colors hover:bg-neutral-100">
                 <RadioGroupItem value="Spicy Mayo" id="sauce-mayo" />
-                <Label htmlFor="sauce-mayo" className="text-lg">
+                <Label
+                  htmlFor="sauce-mayo"
+                  className="text-lg cursor-pointer w-full"
+                >
                   Spicy Mayo <Badge variant="secondary">Bold Choice</Badge>
                 </Label>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 p-2 rounded-md transition-colors hover:bg-neutral-100">
                 <RadioGroupItem value="No Sauce" id="sauce-none" />
-                <Label htmlFor="sauce-none" className="text-lg">
+                <Label
+                  htmlFor="sauce-none"
+                  className="text-lg cursor-pointer w-full"
+                >
                   No Sauce{" "}
                   <Badge variant="destructive">Chef is Concerned</Badge>
                 </Label>
@@ -313,50 +336,61 @@ export default function TonkatsuConfigurator() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <Egg className="mr-2" /> Rice Selection
+        <Card className="shadow-md border-0">
+          <CardHeader className="bg-neutral-100 pb-3">
+            <CardTitle className="flex items-center text-xl">
+              <Egg className="mr-2 h-5 w-5 text-amber-600" /> Rice Selection
             </CardTitle>
             <CardDescription>The foundation of any good meal</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <RadioGroup
               value={config.riceType}
               onValueChange={(value) => handleConfigChange("riceType", value)}
               className="space-y-3"
             >
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 p-2 rounded-md transition-colors hover:bg-neutral-100">
                 <RadioGroupItem value="White Rice" id="rice-white" />
-                <Label htmlFor="rice-white" className="text-lg">
+                <Label
+                  htmlFor="rice-white"
+                  className="text-lg cursor-pointer w-full"
+                >
                   White Rice <Badge variant="outline">Classic Choice</Badge>
                 </Label>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 p-2 rounded-md transition-colors hover:bg-neutral-100">
                 <RadioGroupItem value="Brown Rice" id="rice-brown" />
-                <Label htmlFor="rice-brown" className="text-lg">
+                <Label
+                  htmlFor="rice-brown"
+                  className="text-lg cursor-pointer w-full"
+                >
                   Brown Rice <Badge variant="secondary">Health Conscious</Badge>
                 </Label>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 p-2 rounded-md transition-colors hover:bg-neutral-100">
                 <RadioGroupItem value="No Rice" id="rice-none" />
-                <Label htmlFor="rice-none" className="text-lg">
+                <Label
+                  htmlFor="rice-none"
+                  className="text-lg cursor-pointer w-full"
+                >
                   No Rice <Badge variant="destructive">Carb Avoider</Badge>
                 </Label>
               </div>
             </RadioGroup>
           </CardContent>
 
-          <CardHeader className="pt-6">
-            <CardTitle className="flex items-center">
-              <Leaf className="mr-2" /> Side Dishes
+          <Separator className="my-2" />
+
+          <CardHeader className="pb-3 pt-4">
+            <CardTitle className="flex items-center text-xl">
+              <Leaf className="mr-2 h-5 w-5 text-amber-600" /> Side Dishes
             </CardTitle>
             <CardDescription>
               Complete your meal (or don't, we're not your mom)
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center space-x-2">
+          <CardContent className="pt-3 space-y-4">
+            <div className="flex items-center space-x-2 p-2 rounded-md transition-colors hover:bg-neutral-100">
               <Checkbox
                 id="cabbage"
                 checked={config.cabbageShredded}
@@ -364,14 +398,17 @@ export default function TonkatsuConfigurator() {
                   handleConfigChange("cabbageShredded", Boolean(checked))
                 }
               />
-              <Label htmlFor="cabbage" className="text-lg">
+              <Label
+                htmlFor="cabbage"
+                className="text-lg cursor-pointer w-full"
+              >
                 Shredded Cabbage{" "}
                 <span className="text-sm text-gray-500">
                   (It's basically a salad, right?)
                 </span>
               </Label>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 p-2 rounded-md transition-colors hover:bg-neutral-100">
               <Checkbox
                 id="miso"
                 checked={config.misoSoup}
@@ -379,7 +416,7 @@ export default function TonkatsuConfigurator() {
                   handleConfigChange("misoSoup", Boolean(checked))
                 }
               />
-              <Label htmlFor="miso" className="text-lg">
+              <Label htmlFor="miso" className="text-lg cursor-pointer w-full">
                 Miso Soup{" "}
                 <span className="text-sm text-gray-500">
                   (Liquid comfort in a bowl)
@@ -390,17 +427,17 @@ export default function TonkatsuConfigurator() {
         </Card>
       </div>
 
-      <Card className="mt-8">
-        <CardHeader>
-          <CardTitle className="flex items-center">
-            <Thermometer className="mr-2" /> Spiciness Level{" "}
-            {getSpiceLevelEmoji()}
+      <Card className="mt-6 shadow-md border-0">
+        <CardHeader className="bg-neutral-100 pb-3">
+          <CardTitle className="flex items-center text-xl">
+            <Thermometer className="mr-2 h-5 w-5 text-amber-600" />
+            Spiciness Level {getSpiceLevelEmoji()}
           </CardTitle>
           <CardDescription>
             How much do you hate your taste buds?
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-8 pb-6">
           <Slider
             defaultValue={[0]}
             max={10}
@@ -411,14 +448,14 @@ export default function TonkatsuConfigurator() {
             }
             className="my-6"
           />
-          <div className="flex justify-between text-xs px-2">
+          <div className="flex justify-between text-xs px-2 mt-3 mb-6">
             <span>Mild</span>
             <span>Medium</span>
             <span>Hot</span>
             <span>Very Hot</span>
             <span className="text-red-500 font-bold">INFERNO</span>
           </div>
-          <div className="mt-4 text-center">
+          <div className="text-center">
             <Badge
               variant={
                 config.spicinessLevel >= 7
@@ -427,7 +464,7 @@ export default function TonkatsuConfigurator() {
                   ? "secondary"
                   : "outline"
               }
-              className="text-lg py-1"
+              className="text-lg py-1.5 px-4"
             >
               {config.spicinessLevel === 0
                 ? "Not Spicy At All (Mild)"
@@ -443,18 +480,21 @@ export default function TonkatsuConfigurator() {
         </CardContent>
       </Card>
 
-      <Card className="mt-8 bg-yellow-50">
-        <CardHeader>
-          <CardTitle>Chef's Despair Meter</CardTitle>
+      <Card className="mt-6 shadow-md border-0">
+        <CardHeader className="bg-gradient-to-r from-green-50 to-yellow-50 pb-3">
+          <CardTitle className="flex items-center text-xl">
+            <Sparkles className="mr-2 h-5 w-5 text-amber-600" /> Chef's Despair
+            Meter
+          </CardTitle>
           <CardDescription>
             How much is your order making our chef question their career
             choices?
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700">
+        <CardContent className="pt-6 pb-6">
+          <div className="w-full bg-gray-100 rounded-full h-5 shadow-inner">
             <div
-              className={`h-4 rounded-full ${
+              className={`h-5 rounded-full transition-all duration-500 ${
                 isClassicTonkatsu(config)
                   ? "bg-green-500"
                   : getChefDespairLevel() === "Mild Concern"
@@ -474,31 +514,36 @@ export default function TonkatsuConfigurator() {
               }}
             ></div>
           </div>
-          <p className="text-center mt-2 font-medium">
+          <p className="text-center mt-4 font-medium">
             {isClassicTonkatsu(config)
-              ? "Chef's Joy: You've ordered a proper tonkatsu!"
+              ? "Chef's Joy: You've ordered a proper tonkatsu! 👨‍🍳👌"
               : `${getChefDespairLevel()}: ${
                   getChefDespairLevel() === "Mild Concern"
-                    ? "The chef is raising an eyebrow"
+                    ? "The chef is raising an eyebrow 🤨"
                     : getChefDespairLevel() === "Significant Worry"
-                    ? "The chef is muttering under their breath"
-                    : "The chef is contemplating a career change"
+                    ? "The chef is muttering under their breath 😒"
+                    : "The chef is contemplating a career change 😱"
                 }`}
           </p>
         </CardContent>
       </Card>
 
-      <div className="flex justify-center mt-8 space-x-4">
+      <div className="flex flex-col sm:flex-row justify-center items-center mt-8 space-y-4 sm:space-y-0 sm:space-x-4">
         <Button
           size="lg"
           variant="default"
-          className="bg-yellow-500 hover:bg-yellow-600"
+          className="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 w-full sm:w-auto"
           onClick={handleSubmit}
         >
           <ShoppingCart className="mr-2 h-5 w-5" />
           Place Order (At Your Own Risk)
         </Button>
-        <Button size="lg" variant="outline" onClick={handleReset}>
+        <Button
+          size="lg"
+          variant="outline"
+          onClick={handleReset}
+          className="w-full sm:w-auto"
+        >
           <X className="mr-2 h-5 w-5" />
           Reset (And Pretend This Never Happened)
         </Button>
